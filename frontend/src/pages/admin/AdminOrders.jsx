@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import API_URL from '../../config/api';
 import { Filter, ArrowUpDown } from 'lucide-react';
 
 const AdminOrders = () => {
@@ -12,7 +13,7 @@ const AdminOrders = () => {
     useEffect(() => {
         fetchOrders();
 
-        const socket = io('http://localhost:5000');
+        const socket = io(API_URL);
 
         // WebSockets Real-time listeners
         socket.on('newOrder', (order) => {
@@ -50,7 +51,7 @@ const AdminOrders = () => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
             const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-            const { data } = await axios.get('http://localhost:5000/api/orders', config);
+            const { data } = await axios.get(`${API_URL}/api/orders`, config);
             setOrders(data);
         } catch (error) {
             console.error(error);
@@ -61,7 +62,7 @@ const AdminOrders = () => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
             const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-            await axios.put(`http://localhost:5000/api/orders/${id}`, { status: newStatus }, config);
+            await axios.put(`${API_URL}/api/orders/${id}`, { status: newStatus }, config);
             // La mise à jour de l'état se fera automatiquement en temps réel via le websocket
         } catch (error) {
             const msg = error.response?.data?.message || error.message;

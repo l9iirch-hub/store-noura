@@ -3,6 +3,7 @@ import axios from 'axios';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import API_URL from '../config/api';
 
 const CartDrawer = () => {
     const { cartItems, isCartOpen, setIsCartOpen, updateQty, removeFromCart, clearCart } = useCart();
@@ -15,8 +16,8 @@ const CartDrawer = () => {
         if (!img) return 'https://via.placeholder.com/100?text=Image';
         const url = img.trim();
         if (url.startsWith('http')) return url;
-        if (url.startsWith('/')) return `http://localhost:5000${url}`;
-        return `http://localhost:5000/${url}`;
+        if (url.startsWith('/')) return `${API_URL}${url}`;
+        return `${API_URL}/${url}`;
     };
 
     const totalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
@@ -25,7 +26,7 @@ const CartDrawer = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post('http://localhost:5000/api/orders', {
+            await axios.post(`${API_URL}/api/orders`, {
                 customerName: formData.name,
                 customerEmail: formData.email,
                 customerPhone: formData.phone,

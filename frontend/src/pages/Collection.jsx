@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import { ShoppingBag } from 'lucide-react';
+import API_URL from '../config/api';
 
 const Collection = () => {
     const [products, setProducts] = useState([]);
@@ -14,16 +15,16 @@ const Collection = () => {
         if (!img) return null;
         const url = img.trim();
         if (url.startsWith('http')) return url;
-        if (url.startsWith('/')) return `http://localhost:5000${url}`;
-        return `http://localhost:5000/${url}`;
+        if (url.startsWith('/')) return `${API_URL}${url}`;
+        return `${API_URL}/${url}`;
     };
 
     useEffect(() => {
         const fetchContent = async () => {
             try {
-                const { data: cats } = await axios.get('http://localhost:5000/api/categories');
+                const { data: cats } = await axios.get(`${API_URL}/api/categories`);
                 setCategories(cats);
-                const { data: prods } = await axios.get('http://localhost:5000/api/products');
+                const { data: prods } = await axios.get(`${API_URL}/api/products`);
                 setProducts(prods);
             } catch (error) {
                 console.error("API Error, loading fallback data", error);

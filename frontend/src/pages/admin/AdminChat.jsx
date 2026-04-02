@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { Send, User } from 'lucide-react';
+import API_URL from '../../config/api';
 
 let socket;
 
@@ -14,7 +15,7 @@ const AdminChat = () => {
     useEffect(() => {
         fetchSessions();
 
-        socket = io('http://localhost:5000');
+        socket = io(API_URL);
 
         socket.on('sessionUpdated', (updatedSession) => {
             setSessions(prev => {
@@ -38,7 +39,7 @@ const AdminChat = () => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
             const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-            const { data } = await axios.get('http://localhost:5000/api/chat', config);
+            const { data } = await axios.get(`${API_URL}/api/chat`, config);
             setSessions(data);
         } catch (e) {
             console.error('Fetch sessions admin error:', e);

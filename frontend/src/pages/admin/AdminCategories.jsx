@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, Trash2 } from 'lucide-react';
+import API_URL from '../../config/api';
 
 const AdminCategories = () => {
     const [categories, setCategories] = useState([]);
@@ -13,7 +14,7 @@ const AdminCategories = () => {
 
     const fetchData = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/categories');
+            const { data } = await axios.get(`${API_URL}/api/categories`);
             setCategories(data);
         } catch (error) {
             console.error(error);
@@ -25,7 +26,7 @@ const AdminCategories = () => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
             const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-            await axios.post('http://localhost:5000/api/categories', formData, config);
+            await axios.post(`${API_URL}/api/categories`, formData, config);
             setShowModal(false);
             setFormData({ name: '', slug: '', description: '' });
             fetchData();
@@ -40,7 +41,7 @@ const AdminCategories = () => {
             try {
                 const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
                 const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-                await axios.delete(`http://localhost:5000/api/categories/${id}`, config);
+                await axios.delete(`${API_URL}/api/categories/${id}`, config);
                 fetchData();
             } catch (error) {
                 console.error(error);

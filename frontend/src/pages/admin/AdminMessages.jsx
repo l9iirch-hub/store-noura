@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Trash2, Mail } from 'lucide-react';
+import API_URL from '../../config/api';
 
 const AdminMessages = () => {
     const [messages, setMessages] = useState([]);
@@ -13,7 +14,7 @@ const AdminMessages = () => {
         try {
             const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
             const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-            const { data } = await axios.get('http://localhost:5000/api/messages', config);
+            const { data } = await axios.get(`${API_URL}/api/messages`, config);
             setMessages(data);
         } catch (error) {
             console.error(error);
@@ -25,7 +26,7 @@ const AdminMessages = () => {
             try {
                 const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
                 const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-                await axios.delete(`http://localhost:5000/api/messages/${id}`, config);
+                await axios.delete(`${API_URL}/api/messages/${id}`, config);
                 fetchData();
             } catch (error) {
                 console.error(error);

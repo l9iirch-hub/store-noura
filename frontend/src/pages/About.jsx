@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import API_URL from '../config/api';
 
 const About = () => {
     return (
@@ -23,7 +24,7 @@ const About = () => {
                         className="md:w-1/2 flex flex-col gap-6"
                     >
                         <img
-                            src="http://localhost:5000/uploads/logo.png"
+                            src={`${API_URL}/uploads/logo.png`}
                             alt="Atelier Noura - Logo"
                             className="w-full h-auto rounded-xl object-contain"
                             onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80'; }}

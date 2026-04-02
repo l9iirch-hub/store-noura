@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, Trash2, Edit, UploadCloud, X } from 'lucide-react';
+import API_URL from '../../config/api';
 
 const AdminProducts = () => {
     const [products, setProducts] = useState([]);
@@ -21,8 +22,8 @@ const AdminProducts = () => {
     const fetchData = async () => {
         try {
             const [{ data: prods }, { data: cats }] = await Promise.all([
-                axios.get('http://localhost:5000/api/products'),
-                axios.get('http://localhost:5000/api/categories')
+                axios.get(`${API_URL}/api/products`),
+                axios.get(`${API_URL}/api/categories`)
             ]);
             setProducts(prods);
             setCategories(cats);
@@ -69,7 +70,7 @@ const AdminProducts = () => {
                 }
             };
 
-            const { data } = await axios.post('http://localhost:5000/api/upload', formDataObj, config);
+            const { data } = await axios.post(`${API_URL}/api/upload`, formDataObj, config);
 
             // Stocker le chemin retourné.
             const currentImages = formData.images ? formData.images.split(',').map(i => i.trim()).filter(Boolean) : [];
@@ -105,9 +106,9 @@ const AdminProducts = () => {
             };
 
             if (editMode) {
-                await axios.put(`http://localhost:5000/api/products/${currentId}`, payload, config);
+                await axios.put(`${API_URL}/api/products/${currentId}`, payload, config);
             } else {
-                await axios.post('http://localhost:5000/api/products', payload, config);
+                await axios.post(`${API_URL}/api/products`, payload, config);
             }
             setShowModal(false);
             fetchData();
@@ -123,7 +124,7 @@ const AdminProducts = () => {
             try {
                 const userInfo = JSON.parse(localStorage.getItem('adminInfo'));
                 const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-                await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+                await axios.delete(`${API_URL}/api/products/${id}`, config);
                 fetchData();
             } catch (error) {
                 console.error(error);
@@ -161,7 +162,7 @@ const AdminProducts = () => {
                         ) : products.map(product => (
                             <tr key={product._id} className="hover:bg-gray-50 transition-colors duration-200">
                                 <td className="px-6 py-4">
-                                    {product.images?.[0] && <img src={product.images[0]?.startsWith('/') ? `http://localhost:5000${product.images[0]}` : product.images[0]} alt="prod" className="h-12 w-12 object-cover rounded shadow-sm" />}
+                                    {product.images?.[0] && <img src={product.images[0]?.startsWith('/') ? `${API_URL}${product.images[0]}` : product.images[0]} alt="prod" className="h-12 w-12 object-cover rounded shadow-sm" />}
                                 </td>
                                 <td className="px-6 py-4 font-medium text-dark-900">{product.name}</td>
                                 <td className="px-6 py-4 text-gray-600">{product.category?.name || '-'}</td>
@@ -219,7 +220,7 @@ const AdminProducts = () => {
                                     <div className="mb-4 flex flex-wrap gap-4">
                                         {formData.images.split(',').filter(Boolean).map((img, idx) => (
                                             <div key={idx} className="relative group">
-                                                <img src={img.trim().startsWith('/') ? `http://localhost:5000${img.trim()}` : img.trim()} alt="Aperçu" className="w-20 h-20 object-cover rounded shadow-sm border border-gray-200" />
+                                                <img src={img.trim().startsWith('/') ? `${API_URL}${img.trim()}` : img.trim()} alt="Aperçu" className="w-20 h-20 object-cover rounded shadow-sm border border-gray-200" />
                                                 <button
                                                     type="button"
                                                     onClick={() => removeImagePreview(idx)}

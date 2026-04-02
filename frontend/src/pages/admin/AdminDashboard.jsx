@@ -4,6 +4,7 @@ import { Package, Folder, MessageCircle, ShoppingCart, Clock, TrendingUp } from 
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { io } from 'socket.io-client';
+import API_URL from '../../config/api';
 
 const StatCard = ({ icon, label, value, color, bgColor, link, loading }) => (
     <Link to={link}>
@@ -38,10 +39,10 @@ const AdminDashboard = () => {
             const config = { headers: { Authorization: `Bearer ${adminInfo?.token}` } };
 
             const [productsRes, categoriesRes, messagesRes, ordersRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/products'),
-                axios.get('http://localhost:5000/api/categories'),
-                axios.get('http://localhost:5000/api/messages', config),
-                axios.get('http://localhost:5000/api/orders', config),
+                axios.get(`${API_URL}/api/products`),
+                axios.get(`${API_URL}/api/categories`),
+                axios.get(`${API_URL}/api/messages`, config),
+                axios.get(`${API_URL}/api/orders`, config),
             ]);
 
             const orders = ordersRes.data;
@@ -70,7 +71,7 @@ const AdminDashboard = () => {
         fetchStats();
 
         // Real-time: update when a new order comes in
-        const socket = io('http://localhost:5000');
+        const socket = io(API_URL);
         socket.on('newOrder', () => {
             fetchStats(); // Refresh all stats instantly
         });

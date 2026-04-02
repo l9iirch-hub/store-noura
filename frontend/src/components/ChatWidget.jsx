@@ -3,6 +3,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import API_URL from '../config/api';
 
 let socket;
 
@@ -21,11 +22,11 @@ const ChatWidget = () => {
         }
         setGuestId(gid);
 
-        socket = io('http://localhost:5000');
+        socket = io(API_URL);
 
         const loadInitialChat = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:5000/api/chat/${gid}`);
+                const { data } = await axios.get(`${API_URL}/api/chat/${gid}`);
                 if (data && data.messages) {
                     setMessages(data.messages);
                 }
