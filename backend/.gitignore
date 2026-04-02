@@ -1,0 +1,24 @@
+# Dépendances
+node_modules/
+
+# Fichiers secrets / environnement
+.env
+.env.local
+.env.*.local
+
+# Dossier d'uploads (images en local)
+uploads/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

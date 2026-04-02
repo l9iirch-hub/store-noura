@@ -1,0 +1,27 @@
+# Dépendances
+node_modules/
+
+# Fichiers secrets
+.env
+.env.*
+*.env
+
+# Uploads (images stockées localement, non versionnées)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Build frontend
+frontend/dist/
+frontend/build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

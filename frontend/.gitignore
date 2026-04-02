@@ -1,0 +1,27 @@
+# Dépendances
+node_modules/
+
+# Fichiers build
+dist/
+build/
+
+# Fichiers secrets / environnement
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache Vite
+.vite/
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
